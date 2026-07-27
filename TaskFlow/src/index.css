@@ -34,3 +34,12 @@ button {
   cursor: pointer;
   font-size: 16px;
 }
+
+ul {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+}

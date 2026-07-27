@@ -3,6 +3,14 @@ import Navbar from "./components/Navbar";
 
 function App() {
   const [task, setTask] = useState("");
+  const [tasks, setTasks] = useState([]);
+
+  function addTask() {
+    if (task.trim() === "") return;
+
+    setTasks([...tasks, task]);
+    setTask("");
+  }
 
   return (
     <div>
@@ -17,7 +25,13 @@ function App() {
         onChange={(e) => setTask(e.target.value)}
       />
 
-      <button>Add Task</button>
+      <button onClick={addTask}>Add Task</button>
+
+      <ul>
+        {tasks.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }
