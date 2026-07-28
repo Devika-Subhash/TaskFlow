@@ -12,6 +12,11 @@ function App() {
     setTask("");
   }
 
+  function deleteTask(indexToDelete) {
+  const updatedTasks = tasks.filter((_, index) => index !== indexToDelete);
+  setTasks(updatedTasks);
+}
+
   return (
     <div>
       <Navbar title="TaskFlow" />
@@ -28,10 +33,13 @@ function App() {
       <button onClick={addTask}>Add Task</button>
 
       <ul>
-        {tasks.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+  {tasks.map((item, index) => (
+    <li key={index}>
+      {item}
+      <button onClick={() => deleteTask(index)}>Delete</button>
+    </li>
+  ))}
+</ul>
     </div>
   );
 }
