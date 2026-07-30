@@ -5,31 +5,46 @@ function App() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+
   function addTask() {
-  if (task.trim() === "") return;
+    if (task.trim() === "") return;
 
-  if (editIndex !== null) {
-    const updatedTasks = [...tasks];
-    updatedTasks[editIndex] = task;
+    if (editIndex !== null) {
+      const updatedTasks = [...tasks];
+      updatedTasks[editIndex].text = task;
 
-    setTasks(updatedTasks);
-    setEditIndex(null);
-  } else {
-    setTasks([...tasks, task]);
+      setTasks(updatedTasks);
+      setEditIndex(null);
+    } else {
+      setTasks([
+        ...tasks,
+        {
+          text: task,
+          completed: false,
+        },
+      ]);
+    }
+
+    setTask("");
   }
 
-  setTask("");
-}
-
   function deleteTask(indexToDelete) {
-  const updatedTasks = tasks.filter((_, index) => index !== indexToDelete);
-  setTasks(updatedTasks);
-}
+    const updatedTasks = tasks.filter(
+      (_, index) => index !== indexToDelete
+    );
+    setTasks(updatedTasks);
+  }
 
   function editTask(index) {
-  setTask(tasks[index]);
-  setEditIndex(index);
-}
+    setTask(tasks[index].text);
+    setEditIndex(index);
+  }
+
+  function toggleComplete(index) {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].completed = !updatedTasks[index].completed;
+    setTasks(updatedTasks);
+  }
 
   return (
     <div>
@@ -45,18 +60,36 @@ function App() {
       />
 
       <button onClick={addTask}>
-      {editIndex !== null ? "Update Task" : "Add Task"}
+        {editIndex !== null ? "Update Task" : "Add Task"}
       </button>
 
       <ul>
-  {tasks.map((item, index) => (
-    <li key={index}>
-      {item}
-      <button onClick={() => deleteTask(index)}>Delete</button>
-      <button onClick={() => editTask(index)}>Edit </button>
-    </li>
-  ))}
-</ul>
+        {tasks.map((item, index) => (
+          <li key={index}>
+            <span
+              style={{
+                textDecoration: item.completed
+                  ? "line-through"
+                  : "none",
+              }}
+            >
+              {item.text}
+            </span>
+
+            <button onClick={() => editTask(index)}>
+              Edit
+            </button>
+
+            <button onClick={() => deleteTask(index)}>
+              Delete
+            </button>
+
+            <button onClick={() => toggleComplete(index)}>
+              {item.completed ? "Undo" : "Complete"}
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
