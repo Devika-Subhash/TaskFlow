@@ -35,9 +35,9 @@ npm run dev
 
 ## 📚 Learning Progress
 
-- [x] Project setup
-- [x] Navbar component
-- [x] Task input UI
+- [ ] Project setup
+- [ ] Navbar component
+- [ ] Task input UI
 - [ ] Add tasks
 - [ ] Delete tasks
 - [ ] Edit tasks
