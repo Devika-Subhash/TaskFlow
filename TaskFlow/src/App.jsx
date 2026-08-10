@@ -14,6 +14,7 @@ function App() {
   const [editIndex, setEditIndex] = useState(null);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -66,9 +67,7 @@ function App() {
   }
 
   function clearCompleted() {
-    setTasks(
-      tasks.filter((item) => !item.completed)
-    );
+    setTasks(tasks.filter((item) => !item.completed));
   }
 
   const filteredTasks = tasks.filter((item) => {
@@ -93,56 +92,64 @@ function App() {
   const pendingTasks = totalTasks - completedTasks;
 
   return (
-    <div>
+    <div className={darkMode ? "app dark" : "app"}>
       <Navbar title="TaskFlow" />
-<div className="page-header">
-      <h2>Today's Tasks</h2>
-<p>Stay organized and get things done.</p>
-</div>
-      <input
-        type="text"
-        placeholder="Search tasks"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
 
-      <div>
-        <button onClick={() => setFilter("all")}>
-          All
+      <main>
+        <div className="page-header">
+          <h2>Today's Tasks</h2>
+          <p>Stay organized and get things done.</p>
+        </div>
+
+        <button onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
         </button>
 
-        <button onClick={() => setFilter("active")}>
-          Active
+        <input
+          type="text"
+          placeholder="Search tasks"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <div>
+          <button onClick={() => setFilter("all")}>
+            All
+          </button>
+
+          <button onClick={() => setFilter("active")}>
+            Active
+          </button>
+
+          <button onClick={() => setFilter("completed")}>
+            Completed
+          </button>
+        </div>
+
+        <TaskForm
+          task={task}
+          setTask={setTask}
+          addTask={addTask}
+          editIndex={editIndex}
+        />
+
+        <div>
+          <p>Total: {totalTasks}</p>
+          <p>Completed: {completedTasks}</p>
+          <p>Pending: {pendingTasks}</p>
+        </div>
+
+        <TaskList
+          tasks={filteredTasks}
+          editTask={editTask}
+          deleteTask={deleteTask}
+          toggleComplete={toggleComplete}
+        />
+
+        <button onClick={clearCompleted}>
+          Clear Completed
         </button>
-
-        <button onClick={() => setFilter("completed")}>
-          Completed
-        </button>
-      </div>
-
-      <TaskForm
-        task={task}
-        setTask={setTask}
-        addTask={addTask}
-        editIndex={editIndex}
-      />
-
-      <div>
-        <p>Total: {totalTasks}</p>
-        <p>Completed: {completedTasks}</p>
-        <p>Pending: {pendingTasks}</p>
-      </div>
-
-      <TaskList
-        tasks={filteredTasks}
-        editTask={editTask}
-        deleteTask={deleteTask}
-        toggleComplete={toggleComplete}
-      />
-
-      <button onClick={clearCompleted}>
-        Clear Completed
-      </button>
+      </main>
     </div>
   );
 }
