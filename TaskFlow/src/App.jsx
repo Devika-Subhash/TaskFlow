@@ -65,6 +65,12 @@ function App() {
     );
   }
 
+  function clearCompleted() {
+    setTasks(
+      tasks.filter((item) => !item.completed)
+    );
+  }
+
   const filteredTasks = tasks.filter((item) => {
     const matchesSearch = item.text
       .toLowerCase()
@@ -78,7 +84,6 @@ function App() {
     return matchesSearch && matchesFilter;
   });
 
-  // Task statistics
   const totalTasks = tasks.length;
 
   const completedTasks = tasks.filter(
@@ -133,6 +138,10 @@ function App() {
         deleteTask={deleteTask}
         toggleComplete={toggleComplete}
       />
+
+      <button onClick={clearCompleted}>
+        Clear Completed
+      </button>
     </div>
   );
 }
