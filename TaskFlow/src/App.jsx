@@ -13,6 +13,7 @@ function App() {
 
   const [editIndex, setEditIndex] = useState(null);
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -64,9 +65,18 @@ function App() {
     );
   }
 
-  const filteredTasks = tasks.filter((item) =>
-    item.text.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredTasks = tasks.filter((item) => {
+    const matchesSearch = item.text
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "active" && !item.completed) ||
+      (filter === "completed" && item.completed);
+
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <div>
@@ -78,6 +88,20 @@ function App() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+
+      <div>
+        <button onClick={() => setFilter("all")}>
+          All
+        </button>
+
+        <button onClick={() => setFilter("active")}>
+          Active
+        </button>
+
+        <button onClick={() => setFilter("completed")}>
+          Completed
+        </button>
+      </div>
 
       <TaskForm
         task={task}
