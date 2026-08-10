@@ -8,13 +8,12 @@ function App() {
 
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem("tasks");
-
     return savedTasks ? JSON.parse(savedTasks) : [];
   });
 
   const [editIndex, setEditIndex] = useState(null);
+  const [search, setSearch] = useState("");
 
-  // Save tasks whenever they change
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -65,9 +64,20 @@ function App() {
     );
   }
 
+  const filteredTasks = tasks.filter((item) =>
+    item.text.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div>
       <Navbar title="TaskFlow" />
+
+      <input
+        type="text"
+        placeholder="Search tasks"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
       <TaskForm
         task={task}
@@ -77,7 +87,7 @@ function App() {
       />
 
       <TaskList
-        tasks={tasks}
+        tasks={filteredTasks}
         editTask={editTask}
         deleteTask={deleteTask}
         toggleComplete={toggleComplete}
