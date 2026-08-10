@@ -1,19 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 
 function App() {
   const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]);
+
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem("tasks");
+
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
+
   const [editIndex, setEditIndex] = useState(null);
+
+  // Save tasks whenever they change
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   function addTask() {
     if (task.trim() === "") return;
 
     if (editIndex !== null) {
       const updatedTasks = tasks.map((item, index) =>
-        index === editIndex ? { ...item, text: task } : item
+        index === editIndex
+          ? { ...item, text: task }
+          : item
       );
 
       setTasks(updatedTasks);
