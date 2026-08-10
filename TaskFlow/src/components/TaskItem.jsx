@@ -6,28 +6,31 @@ function TaskItem({
   toggleComplete,
 }) {
   return (
-    <li>
-      <span
-        style={{
-          textDecoration: item.completed
-            ? "line-through"
-            : "none",
-        }}
-      >
-        {item.text}
-      </span>
+    <li className={item.completed ? "task completed" : "task"}>
+      <span className="task-text">{item.text}</span>
 
-      <button onClick={() => editTask(index)}>
-        Edit
-      </button>
+      <div className="task-actions">
+        <button
+          className="edit-btn"
+          onClick={() => editTask(index)}
+        >
+          Edit
+        </button>
 
-      <button onClick={() => deleteTask(index)}>
-        Delete
-      </button>
+        <button
+          className="delete-btn"
+          onClick={() => deleteTask(index)}
+        >
+          Delete
+        </button>
 
-      <button onClick={() => toggleComplete(index)}>
-        {item.completed ? "Undo" : "Complete"}
-      </button>
+        <button
+          className="complete-btn"
+          onClick={() => toggleComplete(index)}
+        >
+          {item.completed ? "Undo" : "Complete"}
+        </button>
+      </div>
     </li>
   );
 }
