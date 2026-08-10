@@ -16,10 +16,12 @@ function App() {
   const [filter, setFilter] = useState("all");
   const [darkMode, setDarkMode] = useState(false);
 
+  // Save tasks to Local Storage
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  // Add or update task
   function addTask() {
     if (task.trim() === "") return;
 
@@ -45,31 +47,41 @@ function App() {
     setTask("");
   }
 
+  // Delete task
   function deleteTask(indexToDelete) {
     setTasks(
       tasks.filter((_, index) => index !== indexToDelete)
     );
   }
 
+  // Edit task
   function editTask(index) {
     setTask(tasks[index].text);
     setEditIndex(index);
   }
 
+  // Complete / Undo task
   function toggleComplete(index) {
     setTasks(
       tasks.map((item, i) =>
         i === index
-          ? { ...item, completed: !item.completed }
+          ? {
+              ...item,
+              completed: !item.completed,
+            }
           : item
       )
     );
   }
 
+  // Clear completed tasks
   function clearCompleted() {
-    setTasks(tasks.filter((item) => !item.completed));
+    setTasks(
+      tasks.filter((item) => !item.completed)
+    );
   }
 
+  // Search + Filter
   const filteredTasks = tasks.filter((item) => {
     const matchesSearch = item.text
       .toLowerCase()
@@ -83,13 +95,23 @@ function App() {
     return matchesSearch && matchesFilter;
   });
 
+  // Statistics
   const totalTasks = tasks.length;
 
   const completedTasks = tasks.filter(
     (item) => item.completed
   ).length;
 
-  const pendingTasks = totalTasks - completedTasks;
+  const pendingTasks =
+    totalTasks - completedTasks;
+
+  // Progress
+  const progress =
+    totalTasks === 0
+      ? 0
+      : Math.round(
+          (completedTasks / totalTasks) * 100
+        );
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
@@ -101,31 +123,49 @@ function App() {
           <p>Stay organized and get things done.</p>
         </div>
 
-        <button onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+        {/* Dark Mode */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode
+            ? "☀️ Light Mode"
+            : "🌙 Dark Mode"}
         </button>
 
+        {/* Search */}
         <input
           type="text"
           placeholder="Search tasks"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
         />
 
+        {/* Filters */}
         <div>
-          <button onClick={() => setFilter("all")}>
+          <button
+            onClick={() => setFilter("all")}
+          >
             All
           </button>
 
-          <button onClick={() => setFilter("active")}>
+          <button
+            onClick={() => setFilter("active")}
+          >
             Active
           </button>
 
-          <button onClick={() => setFilter("completed")}>
+          <button
+            onClick={() =>
+              setFilter("completed")
+            }
+          >
             Completed
           </button>
         </div>
 
+        {/* Task Form */}
         <TaskForm
           task={task}
           setTask={setTask}
@@ -133,12 +173,33 @@ function App() {
           editIndex={editIndex}
         />
 
-        <div>
+        {/* Statistics */}
+        <div className="stats">
           <p>Total: {totalTasks}</p>
-          <p>Completed: {completedTasks}</p>
+          <p>
+            Completed: {completedTasks}
+          </p>
           <p>Pending: {pendingTasks}</p>
         </div>
 
+        {/* Progress */}
+        <div className="progress-section">
+          <div className="progress-info">
+            <span>Progress</span>
+            <span>{progress}%</span>
+          </div>
+
+          <div className="progress-bar">
+            <div
+              className="progress-fill"
+              style={{
+                width: `${progress}%`,
+              }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Task List */}
         <TaskList
           tasks={filteredTasks}
           editTask={editTask}
@@ -146,6 +207,7 @@ function App() {
           toggleComplete={toggleComplete}
         />
 
+        {/* Clear Completed */}
         <button onClick={clearCompleted}>
           Clear Completed
         </button>
