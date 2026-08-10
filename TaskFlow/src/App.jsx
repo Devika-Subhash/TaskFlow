@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
+import TaskForm from "./components/TaskForm";
+import TaskList from "./components/TaskList";
 
 function App() {
   const [task, setTask] = useState("");
@@ -10,8 +12,9 @@ function App() {
     if (task.trim() === "") return;
 
     if (editIndex !== null) {
-      const updatedTasks = [...tasks];
-      updatedTasks[editIndex].text = task;
+      const updatedTasks = tasks.map((item, index) =>
+        index === editIndex ? { ...item, text: task } : item
+      );
 
       setTasks(updatedTasks);
       setEditIndex(null);
@@ -29,10 +32,9 @@ function App() {
   }
 
   function deleteTask(indexToDelete) {
-    const updatedTasks = tasks.filter(
-      (_, index) => index !== indexToDelete
+    setTasks(
+      tasks.filter((_, index) => index !== indexToDelete)
     );
-    setTasks(updatedTasks);
   }
 
   function editTask(index) {
@@ -41,55 +43,32 @@ function App() {
   }
 
   function toggleComplete(index) {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].completed = !updatedTasks[index].completed;
-    setTasks(updatedTasks);
+    setTasks(
+      tasks.map((item, i) =>
+        i === index
+          ? { ...item, completed: !item.completed }
+          : item
+      )
+    );
   }
 
   return (
     <div>
       <Navbar title="TaskFlow" />
 
-      <h2>Today's Tasks</h2>
-
-      <input
-        type="text"
-        placeholder="Enter a task"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
+      <TaskForm
+        task={task}
+        setTask={setTask}
+        addTask={addTask}
+        editIndex={editIndex}
       />
 
-      <button onClick={addTask}>
-        {editIndex !== null ? "Update Task" : "Add Task"}
-      </button>
-
-      <ul>
-        {tasks.map((item, index) => (
-          <li key={index}>
-            <span
-              style={{
-                textDecoration: item.completed
-                  ? "line-through"
-                  : "none",
-              }}
-            >
-              {item.text}
-            </span>
-
-            <button onClick={() => editTask(index)}>
-              Edit
-            </button>
-
-            <button onClick={() => deleteTask(index)}>
-              Delete
-            </button>
-
-            <button onClick={() => toggleComplete(index)}>
-              {item.completed ? "Undo" : "Complete"}
-            </button>
-          </li>
-        ))}
-      </ul>
+      <TaskList
+        tasks={tasks}
+        editTask={editTask}
+        deleteTask={deleteTask}
+        toggleComplete={toggleComplete}
+      />
     </div>
   );
 }
