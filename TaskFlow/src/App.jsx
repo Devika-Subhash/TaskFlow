@@ -78,9 +78,20 @@ function App() {
     return matchesSearch && matchesFilter;
   });
 
+  // Task statistics
+  const totalTasks = tasks.length;
+
+  const completedTasks = tasks.filter(
+    (item) => item.completed
+  ).length;
+
+  const pendingTasks = totalTasks - completedTasks;
+
   return (
     <div>
       <Navbar title="TaskFlow" />
+
+      <h2>Today's Tasks</h2>
 
       <input
         type="text"
@@ -109,6 +120,12 @@ function App() {
         addTask={addTask}
         editIndex={editIndex}
       />
+
+      <div>
+        <p>Total: {totalTasks}</p>
+        <p>Completed: {completedTasks}</p>
+        <p>Pending: {pendingTasks}</p>
+      </div>
 
       <TaskList
         tasks={filteredTasks}
