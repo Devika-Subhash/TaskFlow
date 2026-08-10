@@ -95,9 +95,10 @@ function App() {
   return (
     <div>
       <Navbar title="TaskFlow" />
-
+<div className="page-header">
       <h2>Today's Tasks</h2>
-
+<p>Stay organized and get things done.</p>
+</div>
       <input
         type="text"
         placeholder="Search tasks"

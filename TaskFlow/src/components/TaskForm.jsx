@@ -1,8 +1,6 @@
 function TaskForm({ task, setTask, addTask, editIndex }) {
   return (
-    <div>
-      <h2>Today's Tasks</h2>
-
+    <div className="task-form">
       <input
         type="text"
         placeholder="Enter a task"
