@@ -1,16 +1,60 @@
-# React + Vite
+# TaskFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TaskFlow is a responsive task management application built with React and Vite.
 
-Currently, two official plugins are available:
+It allows users to create, edit, delete, complete, search, and filter tasks while automatically saving them in the browser using Local Storage.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Add tasks
+- Edit tasks
+- Delete tasks
+- Mark tasks as completed
+- Undo completed tasks
+- Search tasks
+- Filter tasks
+- Clear completed tasks
+- Task statistics
+- Progress tracking
+- Dark mode
+- Local Storage persistence
+- Responsive design
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React
+- JavaScript
+- Vite
+- CSS
+- Local Storage
+- Git & GitHub
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## React Concepts Used
+
+- Components
+- Props
+- `useState`
+- `useEffect`
+- Event handling
+- Controlled components
+- Conditional rendering
+- `map()`
+- `filter()`
+- Spread operator
+- Derived data
+- Component composition
+- Parent-child communication
+
+## Project Structure
+
+```text
+src/
+├── components/
+│   ├── Navbar.jsx
+│   ├── TaskForm.jsx
+│   ├── TaskItem.jsx
+│   └── TaskList.jsx
+│
+├── App.jsx
+├── main.jsx
+└── index.css
