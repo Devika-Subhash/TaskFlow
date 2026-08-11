@@ -27,13 +27,13 @@ TaskFlow is a frontend task management application designed to help users organi
 
 ## 🖥️ Preview
 
-### Light Mode
-
-![TaskFlow Light Mode](TaskFlow/screenshots/light-mode.png)
-
 ### Dark Mode
 
 ![TaskFlow Dark Mode](TaskFlow/screenshots/dark-mode.png)
+
+### Light Mode
+
+![TaskFlow Light Mode](TaskFlow/screenshots/light-mode.png)
 
 ---
 
